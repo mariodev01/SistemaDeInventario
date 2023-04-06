@@ -1,0 +1,45 @@
+﻿@model List<Articulo>
+
+<h1>Articulos</h1>
+
+<a class="btn btn-primary" asp-action="Create">Agregar Articulo</a>
+
+
+@if (Model.Count <= 0)
+{
+    <p>No hay Articulos Disponibles Actualmente</p>
+}else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Descripcion</th>
+                <th>FechaIngreso</th>
+                <th>Estado</th>
+                <th>FechaVencimiento</th>
+                <th>Cantidad</th>
+                <th>Costo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var ar in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(a=>ar.Id)</td>
+                    <td>@Html.DisplayFor(a=>ar.Descripcion)</td>
+                    <td>@Html.DisplayFor(a=>ar.FechaIngreso)</td>
+                    <td>@Html.DisplayFor(a=>ar.Estado)</td>
+                    <td>@Html.DisplayFor(a=>ar.FechaVencimiento)</td>
+                    <td>@Html.DisplayFor(a=>ar.Cantidad)</td>
+                    <td>@Html.DisplayFor(a=>ar.Costo)</td>
+                    <td>
+                        <a class="btn btn-warning"asp-action="Edit" asp-route-id="@ar.Id">Editar</a>
+                        <a class="btn btn-danger" asp-route-id="@ar.Id"asp-action="Delete">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
