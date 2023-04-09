@@ -1,0 +1,46 @@
+﻿@model List<Transaccion>
+
+<a class="btn btn-primary" asp-action="Create">Crear Transaccion </a>
+
+
+@if (Model.Count <= 0)
+{
+    <p>No hay Transacciones Actualmente</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Descripcion</th>
+                <th>TipoTransaccionId</th>
+                <th>ArticuloId</th>
+                <th>Fecha Documento</th>
+                <th>EstadoId</th>
+                <th>Cantidad</th>
+                <th>Costo Total</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var tr in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(t=>tr.Id)</td>
+                    <td>@Html.DisplayFor(t=>tr.Descripcion)</td>
+                    <td>@Html.DisplayFor(t=>tr.TipoTransaccionId)</td>
+                    <td>@Html.DisplayFor(t=>tr.ArticuloId)</td>
+                    <td>@Html.DisplayFor(t=>tr.FechaDocumento)</td>
+                    <td>@Html.DisplayFor(t=>tr.EstadoId)</td>
+                    <td>@Html.DisplayFor(t=>tr.Cantidad)</td>
+                    <td>@Html.DisplayFor(t=>tr.CostoTotal)</td>
+                    <td>
+                        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@tr.Id">Editar</a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@tr.Id">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

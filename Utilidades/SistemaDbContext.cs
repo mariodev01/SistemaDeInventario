@@ -9,6 +9,9 @@ namespace SistemaInventario.Utilidades
         {
         }
         public DbSet<Articulo> Articulos { get; set; }
+        public DbSet<Estado> Estados { get; set; }
+        public DbSet<TipoTransaccion> TipoTransaccions { get; set; }
+        public DbSet<Transaccion> Transaccions { get; set; }
 
         public List<Articulo> GetArticulos()
         {
@@ -34,6 +37,32 @@ namespace SistemaInventario.Utilidades
         public void EliminarArticulo(int id)
         {
             Database.ExecuteSqlRaw("exec sp_EliminarArticulo {0}", id);
+        }
+
+        public List<Transaccion> GetTransacciones()
+        {
+            return Transaccions.FromSqlRaw("exec sp_VerTransacciones").ToList();
+        }
+
+        public Transaccion GetTransaccion(int id)
+        {
+            var transaccion = Transaccions.FromSqlInterpolated($"exec sp_VerTransaccion {id}").AsEnumerable().FirstOrDefault();
+            return transaccion;
+        }
+
+        public void CreateTransaccion(string desc, int tipotr, int arti,DateTime fecha,int estado,int canti,decimal costo)
+        {
+            Database.ExecuteSqlRaw("exec sp_CrearTransaccion {0},{1},{2},{3},{4},{5},{6}", desc, tipotr, arti, fecha, estado, canti, costo);
+        }
+
+        public void ActualizarTransaccion(int id, string desc, int tipotr, int arti, DateTime fecha, int estado, int canti, decimal costo)
+        {
+            Database.ExecuteSqlRaw("exec sp_ActualizarTransaccion {0},{1},{2},{3},{4},{5},{6},{7}", id, desc, tipotr, arti, fecha, estado, canti, costo);
+        }
+
+        public void EliminarTransaccion(int id)
+        {
+            Database.ExecuteSqlRaw("exec sp_EliminarTransaccion {0}",id);
         }
     }
 }
