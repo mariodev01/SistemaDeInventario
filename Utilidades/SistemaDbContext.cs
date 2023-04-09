@@ -64,5 +64,14 @@ namespace SistemaInventario.Utilidades
         {
             Database.ExecuteSqlRaw("exec sp_EliminarTransaccion {0}",id);
         }
+
+        public void RegistrarSalida(int id,int cant)
+        {
+            Database.ExecuteSqlRaw("exec sp_RegistrarSalida {0},{1}",id,cant);
+        }
+        public void RegistrarEntrada(int id, int cant)
+        {
+            Database.ExecuteSqlRaw("exec sp_RegistrarEntrada {0},{1}", id, cant);
+        }
     }
 }

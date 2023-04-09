@@ -31,9 +31,17 @@ namespace SistemaInventario.Controllers
             if (ModelState.IsValid)
             {
                 context.CreateTransaccion(transaccion.Descripcion, transaccion.TipoTransaccionId, transaccion.ArticuloId, transaccion.FechaDocumento, transaccion.EstadoId, transaccion.Cantidad, transaccion.CostoTotal);
-                return RedirectToAction("Index");
+                var Tultimo = context.Transaccions.OrderByDescending(t => t.Id).Take(1).FirstOrDefault();
+                if (Tultimo.TipoTransaccionId == 2)
+                {
+                    context.RegistrarSalida(Tultimo.ArticuloId, Tultimo.Cantidad);
+                    return RedirectToAction("Index");
+                }else if (Tultimo.TipoTransaccionId == 1)
+                {
+                    context.RegistrarEntrada(Tultimo.ArticuloId, Tultimo.Cantidad);
+                    return RedirectToAction("Index");
+                }
             }
-
             return View();
         }
         public IActionResult Edit(int id)
@@ -85,18 +93,6 @@ namespace SistemaInventario.Controllers
             return View();
         }
 
-        public void Ultimo()
-        {
-            var Tultimo = context.Transaccions.OrderByDescending(t => t.Id).Take(1).FirstOrDefault();
-            if (Tultimo.TipoTransaccionId == 2)
-            {
-                Console.WriteLine("es una salida");
-            }
-            else
-            {
-                Console.WriteLine("es una entrada");
-            }
-            
-        }
+        /*primero trata de registrar una salida, enfocate en hacer esto primero*/
     }
 }
