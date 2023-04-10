@@ -34,12 +34,21 @@ namespace SistemaInventario.Controllers
                 var Tultimo = context.Transaccions.OrderByDescending(t => t.Id).Take(1).FirstOrDefault();
                 if (Tultimo.TipoTransaccionId == 2)
                 {
+                    var costo = context.Articulos.Where(a => a.Id == Tultimo.ArticuloId).FirstOrDefault();
+                    var costoT = costo.Costo * Tultimo.Cantidad;
+
+
                     context.RegistrarSalida(Tultimo.ArticuloId, Tultimo.Cantidad);
+                    context.ActualizarCosto(costoT, Tultimo.Id);
                     return RedirectToAction("Index");
                 }else if (Tultimo.TipoTransaccionId == 1)
                 {
-                    context.RegistrarEntrada(Tultimo.ArticuloId, Tultimo.Cantidad);
-                    return RedirectToAction("Index");
+                   var costo= context.Articulos.Where(a=>a.Id==Tultimo.ArticuloId).FirstOrDefault();
+                   var costoT = costo.Costo * Tultimo.Cantidad;
+                   
+                   context.RegistrarEntrada(Tultimo.ArticuloId, Tultimo.Cantidad);
+                    context.ActualizarCosto(costoT, Tultimo.Id);
+                   return RedirectToAction("Index");
                 }
             }
             return View();

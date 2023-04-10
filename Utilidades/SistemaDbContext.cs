@@ -73,5 +73,9 @@ namespace SistemaInventario.Utilidades
         {
             Database.ExecuteSqlRaw("exec sp_RegistrarEntrada {0},{1}", id, cant);
         }
+        public void ActualizarCosto(decimal costo,int id)
+        {
+            Database.ExecuteSqlRaw("exec sp_CostoTotal {0},{1}", costo, id);
+        }
     }
 }
